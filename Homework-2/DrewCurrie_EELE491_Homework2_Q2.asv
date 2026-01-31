@@ -1,0 +1,13 @@
+%Spring 2026 EELE-491
+%Drew Currie Homework-2
+%Problem 2
+
+%% Part 2 
+% Plot measured training data and label name
+figure("name", "Training Data Spread")
+scatter(meas(1:50,1), meas(1:50, 2),"y")
+hold on;
+scatter(meas(51:100, 1), mea, "c")
+hold on;
+scatter(meas(101:end, 1:2),"g")
+hold off;
