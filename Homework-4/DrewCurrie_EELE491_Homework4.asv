@@ -1,0 +1,50 @@
+%% Drew Currie 
+%% EELE-491 Spring 2026 MSU
+%% Homework 4
+
+clear; clc; close all hidden;
+
+%% Problem 1
+%Sigmoid Function
+sigma = @(x) 1./(1+exp(-1*x));
+sigma_prime = @(x) sigma(x).*(1-sigma(x));
+
+% Plot sigmoid function
+figure("name","Sigmoid Function")
+x = linspace(-10, 10, 100);
+y = sigma(x);
+subplot(2,1,1);
+plot(x, y, 'LineWidth', 2);
+xlabel('Input (x)');
+ylabel('Sigmoid Output');
+title('Sigmoid Function');
+grid on;
+subplot(2,1,2);
+y = sigma_prime(x);
+plot(x,y,'LineWidth', 2);
+xlabel('Input (x)');
+ylabel('Sigmoid Derivative');
+title('Derivative of Sigmoid Function');
+grid on;
+
+%Hyperbolic Tangent Function
+ta = @(x) tanh(x);
+sigma_prime = @(x) sigma(x).*(1-sigma(x));
+
+% Plot sigmoid function
+figure("name","Sigmoid Function")
+x = linspace(-10, 10, 100);
+y = sigma(x);
+subplot(2,1,1);
+plot(x, y, 'LineWidth', 2);
+xlabel('Input (x)');
+ylabel('Sigmoid Output');
+title('Sigmoid Function');
+grid on;
+subplot(2,1,2);
+y = sigma_prime(x);
+plot(x,y,'LineWidth', 2);
+xlabel('Input (x)');
+ylabel('Sigmoid Derivative');
+title('Derivative of Sigmoid Function');
+grid on;
