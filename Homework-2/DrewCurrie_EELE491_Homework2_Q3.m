@@ -6,7 +6,7 @@
 
 %Generate mesh data
 
-DecisionBoundryPlotter_3D(Question3TrilayeredNeuralNetwork, 'TriLayeredNeuralNetwork', meas)
+DecisionBoundryPlotter_3D(Question3TrilayerNeuralNetwork, 'TriLayeredNeuralNetwork', meas)
 DecisionBoundryPlotter_3D(Question3MediumKNN, 'Medium KNN', meas)
 DecisionBoundryPlotter_3D(Question3WeightedKNN, 'Weighted KNN', meas)
 DecisionBoundryPlotter_3D(Question3LinearSVM, 'Linear SVM', meas)

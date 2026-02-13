@@ -19,10 +19,7 @@ precision = TP / (TP+FP);
 recall = TP/(TP+FN);
 F1 = 2*(precision*recall)/(precision+recall);
 
-% Display the results <- MATLAB AI added this section automatically. 
-% I don't know how I feel that MATLAB now has an AI always reading my code
-% and making suggestions on what to write next, including trying to
-% complete thsi comment for me...
+% Display the results
 fprintf('Accuracy: %.2f%%\n', accuracy * 100);
 fprintf('Precision: %.2f%%\n', precision * 100);
 fprintf('Recall: %.2f%%\n', recall * 100);
