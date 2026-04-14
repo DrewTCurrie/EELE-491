@@ -1,0 +1,1751 @@
+# EELE-491 Exam Note Sheet
+
+## 1) Big Picture
+
+**AI → Machine Learning → Deep Learning → LLMs**
+
+* **AI**: Broad field of making systems act intelligently.
+* **ML**: Systems learn patterns from data.
+* **Neural Networks / Deep Learning**: ML using layered networks.
+* **LLMs**: Large neural language models, typically based on **Transformers**.
+
+---
+
+# 2) Supervised Binary Classification
+
+## Core idea
+
+Given input **x**, predict class **y ∈ {0,1}**
+
+## Decision Boundary
+
+A surface that separates classes in feature space.
+
+* **Linearly separable**: one line/plane can separate classes.
+* **Nonlinearly separable**: need curved boundary or more complex model.
+
+---
+
+## Confusion Matrix
+
+|                 | Predicted Positive | Predicted Negative |
+| --------------- | ------------------ | ------------------ |
+| Actual Positive | TP                 | FN                 |
+| Actual Negative | FP                 | TN                 |
+
+### Metrics
+
+**Accuracy**
+$$
+\text{Accuracy}=\frac{TP+TN}{TP+TN+FP+FN}
+$$
+
+**Precision**
+$$
+\text{Precision}=\frac{TP}{TP+FP}
+$$
+
+**Recall**
+$$
+\text{Recall}=\frac{TP}{TP+FN}
+$$
+
+**F1-score**
+$$
+F1=2\cdot \frac{\text{Precision}\cdot \text{Recall}}{\text{Precision}+\text{Recall}}
+$$
+
+### Quick intuition
+
+* **Precision**: “When model says positive, how often is it right?”
+* **Recall**: “How many real positives did it catch?”
+* **F1**: balance between precision and recall.
+
+---
+
+# 3) ML Classifiers
+
+## Support Vector Machine (SVM)
+
+Goal: maximize margin between classes.
+
+For linear case:
+$$
+f(x)=w^T x+b
+$$
+
+Prediction:
+$$
+\hat{y}=\text{sign}(w^T x+b)
+$$
+
+* Works well for clear boundaries
+* Can use kernels for nonlinear separation
+* Important idea: **maximum margin**
+
+---
+
+## K-Nearest Neighbors (KNN)
+
+* Classify based on the **k closest points**
+
+* Common distance:
+  $$
+  d(x_i,x_j)=\sqrt{\sum_k (x_{ik}-x_{jk})^2}
+  $$
+
+* Small (k): sensitive/noisy
+
+* Large (k): smoother, may underfit
+
+---
+
+## Decision Trees
+
+* Split data using feature thresholds
+* Easy to interpret
+* Can overfit if tree is too deep
+
+Common split criteria:
+
+* **Gini impurity**
+  $$
+  G = 1 - \sum_i p_i^2
+  $$
+
+* **Entropy**
+  $$
+  H = -\sum_i p_i \log_2 p_i
+  $$
+
+---
+
+## Random Forests
+
+* Ensemble of many decision trees
+* Uses bootstrap samples + random feature subsets
+* Reduces overfitting compared to one tree
+
+---
+
+# 4) Data Stratification / Model Evaluation
+
+## Train / Validation / Test
+
+* **Training set**: fit parameters
+* **Validation set**: tune hyperparameters
+* **Test set**: final unbiased evaluation
+
+## Overfitting
+
+Model memorizes training data, poor generalization.
+
+## Underfitting
+
+Model too simple, poor performance even on training data.
+
+## Holdout Validation
+
+Single split into train/validation/test.
+
+## Cross-Validation
+
+Repeated splits; common form is **k-fold CV**.
+
+### Why stratification matters
+
+Preserve class proportions across splits, especially for imbalanced datasets.
+
+---
+
+# 5) Neural Networks
+
+## Perceptron / Single Neuron
+
+$$
+z = w^T x + b
+$$
+$$
+a = \phi(z)
+$$
+
+Where:
+
+* (w): weights
+* (b): bias
+* (\phi): activation function
+* (a): output
+
+## Types
+
+* **Single-layer perceptron**: no hidden layer
+* **MLP**: one hidden layer
+* **Deep neural network**: 2+ hidden layers
+
+---
+
+## Forward Pass
+
+For each layer:
+$$
+z^{(l)} = W^{(l)} a^{(l-1)} + b^{(l)}
+$$
+$$
+a^{(l)} = \phi(z^{(l)})
+$$
+
+Input:
+$$
+a^{(0)}=x
+$$
+
+---
+
+## Common Activation Functions
+
+### Sigmoid
+
+$$
+\sigma(z)=\frac{1}{1+e^{-z}}
+$$
+
+### Tanh
+
+$$
+\tanh(z)=\frac{e^z-e^{-z}}{e^z+e^{-z}}
+$$
+
+### ReLU
+
+$$
+\text{ReLU}(z)=\max(0,z)
+$$
+
+### Softmax
+
+For multiclass output:
+$$
+\text{softmax}(z_i)=\frac{e^{z_i}}{\sum_j e^{z_j}}
+$$
+
+### Quick comparisons
+
+* **Sigmoid**: binary output probability, can saturate
+* **Tanh**: centered around 0
+* **ReLU**: simple, fast, common in hidden layers
+* **Softmax**: output layer for multiclass classification
+
+---
+
+# 6) Loss / Cost Functions
+
+## Mean Squared Error (common in regression)
+
+$$
+MSE=\frac{1}{N}\sum_{i=1}^{N}(y_i-\hat{y}_i)^2
+$$
+
+## Binary Cross-Entropy
+
+$$
+L = -\left$$y\log(\hat{y}) + (1-y)\log(1-\hat{y})\right$$
+$$
+
+## Multiclass Cross-Entropy
+
+$$
+L=-\sum_i y_i \log(\hat{y}_i)
+$$
+
+---
+
+# 7) Backpropagation
+
+## Core idea
+
+Use gradients to update weights to reduce loss.
+
+Gradient descent update:
+$$
+w \leftarrow w - \eta \frac{\partial L}{\partial w}
+$$
+
+$$
+b \leftarrow b - \eta \frac{\partial L}{\partial b}
+$$
+
+Where (\eta) is the **learning rate**.
+
+## Chain Rule
+
+Backprop uses chain rule through layers:
+$$
+\frac{\partial L}{\partial w}=
+\frac{\partial L}{\partial a}
+\frac{\partial a}{\partial z}
+\frac{\partial z}{\partial w}
+$$
+
+### Important intuition
+
+* Forward pass computes prediction
+* Loss measures error
+* Backprop computes how each weight caused error
+* Optimizer updates weights
+
+---
+
+# 8) Neural Network Hyperparameters / Concepts
+
+## Minibatch Size
+
+Number of samples used per weight update.
+
+## Epoch
+
+One full pass through training set.
+
+## Stopping Criteria
+
+Stop when:
+
+* validation loss stops improving
+* max epochs reached
+* early stopping triggered
+
+## Bias
+
+Extra learnable offset:
+$$
+z = w^T x + b
+$$
+
+## Vanishing Gradient
+
+Gradients become tiny in deep nets, slowing learning.
+Common with sigmoid/tanh in deep networks.
+
+## Update Algorithms
+
+### Basic Gradient Descent
+
+$$
+\theta \leftarrow \theta - \eta \nabla_\theta L
+$$
+
+### Stochastic Gradient Descent (SGD)
+
+Uses one example (or minibatch)
+
+### Momentum idea
+
+Uses past gradients to smooth updates
+
+### Adam
+
+Adaptive learning rates + momentum; very common
+
+---
+
+# 9) Common Neural Network Layers
+
+## Fully Connected Layer
+
+Every neuron connected to every output from previous layer.
+
+## Softmax Layer
+
+Converts logits into class probabilities.
+
+## Dropout
+
+Randomly zeroes some neurons during training to reduce overfitting.
+
+## Batch Normalization
+
+Normalizes activations within a minibatch to stabilize training.
+
+## Pooling
+
+Downsamples feature maps.
+
+* **Max pooling**: keeps strongest activation
+* **Average pooling**: averages values
+
+## Convolutional Layer
+
+Applies learnable filters over local regions.
+
+## Recurrent Layer
+
+Handles sequences by carrying hidden state over time.
+
+## Attention Layer
+
+Lets model focus on relevant tokens/positions.
+
+---
+
+# 10) CNNs
+
+## Convolution
+
+A filter/kernel slides across input.
+
+Very general form:
+$$
+(feature\ map)(i,j)=\sum_m \sum_n X(i+m,j+n)K(m,n)
+$$
+
+### What CNNs are good for
+
+* images
+* spatial patterns
+* local feature extraction
+
+### Typical CNN flow
+
+**Conv → activation → pooling → fully connected**
+
+## Forward Pass Intuition
+
+* early layers detect edges/textures
+* deeper layers detect complex shapes/features
+
+## Backprop in CNNs
+
+* gradients flow through convolution filters too
+* each filter weight is updated based on contribution across all positions where it was used
+
+---
+
+# 11) RNNs
+
+## Core idea
+
+Sequence model with hidden state.
+
+At time (t):
+$$
+h_t = f(W_{xh}x_t + W_{hh}h_{t-1} + b_h)
+$$
+$$
+y_t = W_{hy}h_t + b_y
+$$
+
+* Good for time series / sequences
+* Shares parameters across time
+
+## LSTM
+
+Designed to reduce vanishing gradient problems in long sequences.
+
+Main idea:
+
+* has **cell state**
+* uses **gates**:
+
+  * forget gate
+  * input gate
+  * output gate
+
+You probably want to remember **why** LSTMs exist:
+
+> They preserve information longer than standard RNNs.
+
+---
+
+# 12) Transformers
+
+## Core idea
+
+Sequence model based on **attention**, not recurrence.
+
+## Encoder / Decoder
+
+* **Encoder**: reads input sequence
+* **Decoder**: generates output sequence
+
+## Tokenization
+
+Break text into smaller units called **tokens**.
+
+## Positional Encoding
+
+Transformers do not inherently know token order, so position is added to embeddings.
+
+## Q, K, V (Query, Key, Value)
+
+Each token is projected into:
+
+* **Q** = what am I looking for?
+* **K** = what do I contain?
+* **V** = what information do I pass along?
+
+## Self-Attention Equation
+
+$$
+\text{Attention}(Q,K,V)=\text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+$$
+
+### Important parts
+
+* (QK^T): similarity scores
+* divide by (\sqrt{d_k}): stabilizes values
+* softmax: converts to attention weights
+* multiply by (V): weighted combination of information
+
+## Types of Attention
+
+* **Self-attention**: sequence attends to itself
+* **Encoder-decoder attention**: decoder attends to encoder outputs
+
+## Feed-Forward / Fully Connected Layers
+
+Applied after attention to transform representations further.
+
+### Why Transformers are powerful
+
+* parallelizable
+* capture long-range dependencies
+* foundation of modern LLMs
+
+---
+
+# 13) LLMs and Prompting
+
+## Zero-shot Prompting
+
+Ask model to do task with no examples.
+
+Example:
+
+* “Summarize this text.”
+
+## One-shot Prompting
+
+Give one example first.
+
+## Few-shot Prompting
+
+Give a few examples to teach desired pattern.
+
+## Chain-of-Thought Prompting
+
+Encourage step-by-step reasoning.
+
+Example:
+
+* “Explain your reasoning step by step.”
+
+## Prompt Chaining
+
+Output of one prompt becomes input to the next.
+
+## Tree-of-Thought
+
+Explore multiple reasoning paths/branches before choosing best.
+
+## Multi-Agent Prompting
+
+Different agents/roles handle different subtasks.
+
+Example:
+
+* one agent summarizes
+* one critiques
+* one verifies
+
+---
+
+# 14) High-Yield Compare / Contrast
+
+## SVM vs KNN vs Trees vs RF
+
+* **SVM**: margin-based classifier
+* **KNN**: nearest points vote
+* **Decision Tree**: rule-based splits
+* **Random Forest**: many trees combined
+
+## Perceptron vs MLP vs Deep Net
+
+* **Perceptron**: single layer
+* **MLP**: one hidden layer
+* **Deep Net**: multiple hidden layers
+
+## CNN vs RNN vs Transformer
+
+* **CNN**: spatial/local patterns
+* **RNN/LSTM**: sequential dependence over time
+* **Transformer**: attention-based sequence modeling
+
+## Overfitting vs Underfitting
+
+* **Overfitting**: too complex, memorizes
+* **Underfitting**: too simple, misses real pattern
+
+## Precision vs Recall
+
+* **Precision**: avoid false positives
+* **Recall**: avoid false negatives
+
+---
+
+# 15) “Must Know” Equation List
+
+These are the ones I’d memorize first:
+
+$$
+\text{Accuracy}=\frac{TP+TN}{TP+TN+FP+FN}
+$$
+
+$$
+\text{Precision}=\frac{TP}{TP+FP}
+$$
+
+$$
+\text{Recall}=\frac{TP}{TP+FN}
+$$
+
+$$
+F1=2\cdot \frac{\text{Precision}\cdot \text{Recall}}{\text{Precision}+\text{Recall}}
+$$
+
+$$
+z=w^T x+b
+$$
+
+$$
+a=\phi(z)
+$$
+
+$$
+z^{(l)} = W^{(l)} a^{(l-1)} + b^{(l)}
+$$
+
+$$
+\text{ReLU}(z)=\max(0,z)
+$$
+
+$$
+\sigma(z)=\frac{1}{1+e^{-z}}
+$$
+
+$$
+\text{softmax}(z_i)=\frac{e^{z_i}}{\sum_j e^{z_j}}
+$$
+
+$$
+MSE=\frac{1}{N}\sum_{i=1}^{N}(y_i-\hat{y}_i)^2
+$$
+
+$$
+L = -\left$$y\log(\hat{y}) + (1-y)\log(1-\hat{y})\right$$
+$$
+
+$$
+w \leftarrow w-\eta \frac{\partial L}{\partial w}
+$$
+
+$$
+h_t = f(W_{xh}x_t + W_{hh}h_{t-1} + b_h)
+$$
+
+$$
+\text{Attention}(Q,K,V)=\text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+$$
+
+---
+
+# 16) Fast Memory Triggers
+
+## If they ask about:
+
+* **Decision boundary** → separator between classes
+* **Confusion matrix** → TP, TN, FP, FN
+* **Cross-validation** → better estimate of generalization
+* **Backprop** → chain rule + gradients
+* **Epoch** → one full pass through dataset
+* **Minibatch** → subset per update
+* **Dropout** → regularization
+* **Batch norm** → stabilize training
+* **CNN** → convolution, local receptive fields
+* **LSTM** → solves long-term dependency better than vanilla RNN
+* **Transformer** → attention, QKV, positional encoding
+* **Few-shot** → examples in prompt
+* **Chain-of-thought** → explicit reasoning steps
+
+---
+
+# 17) Likely Short-Answer Explanations
+
+## Why use validation data?
+
+To tune hyperparameters without contaminating the final test evaluation.
+
+## Why does overfitting happen?
+
+Model is too complex or trained too aggressively relative to data.
+
+## Why ReLU is popular?
+
+Simple, fast, helps mitigate vanishing gradients compared to sigmoid.
+
+## Why use dropout?
+
+Improves generalization by preventing co-adaptation of neurons.
+
+## Why attention matters?
+
+Lets model weigh the importance of different tokens dynamically.
+
+## Why positional encoding is needed?
+
+Transformer has no recurrence/convolution, so order must be injected.
+
+---
+
+# 18) 2-Minute Final Review
+
+Memorize these:
+
+* TP, TN, FP, FN
+* Accuracy / Precision / Recall / F1
+* (z = w^Tx+b)
+* activation functions: sigmoid, ReLU, softmax
+* gradient descent update
+* train/validation/test split
+* overfitting vs underfitting
+* CNN vs RNN vs Transformer
+* self-attention equation
+* zero/one/few-shot, CoT, Tree-of-Thought, multi-agent
+
+---
+
+# EELE-491 Practice Problems with Solutions
+
+---
+
+## Problem 1: Accuracy
+
+A binary classifier produced the following results on 100 samples:
+
+* TP = 30
+* TN = 50
+* FP = 10
+* FN = 10
+
+Find the **accuracy**.
+
+### Solution
+
+Accuracy is
+
+$$
+\text{Accuracy}=\frac{TP+TN}{TP+TN+FP+FN}
+$$
+
+Substitute values:
+
+$$
+\text{Accuracy}=\frac{30+50}{30+50+10+10}=\frac{80}{100}=0.80
+$$
+
+**Answer: 80%**
+
+---
+
+## Problem 2: Precision
+
+Using the same confusion matrix values:
+
+* TP = 30
+* FP = 10
+
+Find the **precision**.
+
+### Solution
+
+Precision is
+
+$$
+\text{Precision}=\frac{TP}{TP+FP}
+$$
+
+Substitute:
+
+$$
+\text{Precision}=\frac{30}{30+10}=\frac{30}{40}=0.75
+$$
+
+**Answer: 75%**
+
+---
+
+## Problem 3: Recall
+
+Using:
+
+* TP = 30
+* FN = 10
+
+Find the **recall**.
+
+### Solution
+
+Recall is
+
+$$
+\text{Recall}=\frac{TP}{TP+FN}
+$$
+
+Substitute:
+
+$$
+\text{Recall}=\frac{30}{30+10}=\frac{30}{40}=0.75
+$$
+
+**Answer: 75%**
+
+---
+
+## Problem 4: F1 Score
+
+Suppose:
+
+* Precision = 0.75
+* Recall = 0.60
+
+Find the **F1-score**.
+
+### Solution
+
+$$
+F1=2\cdot\frac{\text{Precision}\cdot\text{Recall}}{\text{Precision}+\text{Recall}}
+$$
+
+Substitute:
+
+$$
+F1=2\cdot\frac{0.75\cdot0.60}{0.75+0.60}
+$$
+
+$$
+F1=2\cdot\frac{0.45}{1.35}=\frac{0.90}{1.35}=0.667
+$$
+
+**Answer: 0.667**
+
+---
+
+## Problem 5: Linear Classifier / SVM Decision Function
+
+A classifier has:
+
+$$
+w=\begin{bmatrix}2 \ -1\end{bmatrix}, \quad b=1
+$$
+
+For input
+
+$$
+x=\begin{bmatrix}3 \ 4\end{bmatrix}
+$$
+
+compute
+
+$$
+f(x)=w^T x+b
+$$
+
+and determine the predicted class using sign.
+
+### Solution
+
+First compute dot product:
+
+$$
+w^T x=(2)(3)+(-1)(4)=6-4=2
+$$
+
+Now add bias:
+
+$$
+f(x)=2+1=3
+$$
+
+Prediction:
+
+$$
+\hat y=\text{sign}(3)=+1
+$$
+
+**Answer: (f(x)=3), predicted class = positive**
+
+---
+
+## Problem 6: Euclidean Distance for KNN
+
+Find the Euclidean distance between:
+
+$$
+x_1=(1,2), \quad x_2=(4,6)
+$$
+
+### Solution
+
+Distance formula:
+
+$$
+d(x_1,x_2)=\sqrt{(4-1)^2+(6-2)^2}
+$$
+
+$$
+d=\sqrt{3^2+4^2}=\sqrt{9+16}=\sqrt{25}=5
+$$
+
+**Answer: 5**
+
+---
+
+## Problem 7: Gini Impurity
+
+A node in a decision tree contains 8 samples:
+
+* 5 belong to class A
+* 3 belong to class B
+
+Find the **Gini impurity**.
+
+### Solution
+
+First compute class probabilities:
+
+$$
+p_A=\frac{5}{8}, \quad p_B=\frac{3}{8}
+$$
+
+Gini impurity:
+
+$$
+G=1-\sum_i p_i^2
+$$
+
+$$
+G=1-\left(\frac{5}{8}\right)^2-\left(\frac{3}{8}\right)^2
+$$
+
+$$
+G=1-\frac{25}{64}-\frac{9}{64}=1-\frac{34}{64}=\frac{30}{64}=0.46875
+$$
+
+**Answer: 0.46875**
+
+---
+
+## Problem 8: Entropy
+
+Using the same class distribution:
+
+* 5 in class A
+* 3 in class B
+
+Find the **entropy**.
+
+### Solution
+
+$$
+H=-\sum_i p_i\log_2 p_i
+$$
+
+So:
+
+$$
+H=-\left(\frac{5}{8}\log_2\frac{5}{8}+\frac{3}{8}\log_2\frac{3}{8}\right)
+$$
+
+Approximate values:
+
+$$
+\log_2(5/8)\approx -0.678,\quad \log_2(3/8)\approx -1.415
+$$
+
+Then:
+
+$$
+H=-\left(\frac{5}{8}(-0.678)+\frac{3}{8}(-1.415)\right)
+$$
+
+$$
+H\approx -( -0.42375 -0.530625 ) = 0.954375
+$$
+
+**Answer: about 0.954 bits**
+
+---
+
+## Problem 9: Single Neuron / Weighted Sum
+
+A neuron has:
+
+* inputs: (x_1=2,; x_2=3)
+* weights: (w_1=0.5,; w_2=-1)
+* bias: (b=4)
+
+Find
+
+$$
+z=w^T x+b
+$$
+
+### Solution
+
+$$
+z=(0.5)(2)+(-1)(3)+4
+$$
+
+$$
+z=1-3+4=2
+$$
+
+**Answer: (z=2)**
+
+---
+
+## Problem 10: Sigmoid Activation
+
+If (z=2), compute the sigmoid output.
+
+### Solution
+
+$$
+\sigma(z)=\frac{1}{1+e^{-z}}
+$$
+
+Substitute (z=2):
+
+$$
+\sigma(2)=\frac{1}{1+e^{-2}}
+$$
+
+Since (e^{-2}\approx 0.1353),
+
+$$
+\sigma(2)=\frac{1}{1+0.1353}=\frac{1}{1.1353}\approx 0.881
+$$
+
+**Answer: about 0.881**
+
+---
+
+## Problem 11: ReLU Activation
+
+Compute ReLU for:
+
+1. (z=3)
+2. (z=-2)
+
+### Solution
+
+$$
+\text{ReLU}(z)=\max(0,z)
+$$
+
+For (z=3):
+
+$$
+\text{ReLU}(3)=3
+$$
+
+For (z=-2):
+
+$$
+\text{ReLU}(-2)=0
+$$
+
+**Answers: 3 and 0**
+
+---
+
+## Problem 12: Tanh Activation
+
+Find (\tanh(1)).
+
+### Solution
+
+$$
+\tanh(z)=\frac{e^z-e^{-z}}{e^z+e^{-z}}
+$$
+
+Using (z=1), (e^1\approx 2.718), (e^{-1}\approx 0.368)
+
+$$
+\tanh(1)=\frac{2.718-0.368}{2.718+0.368}=\frac{2.350}{3.086}\approx 0.761
+$$
+
+**Answer: about 0.761**
+
+---
+
+## Problem 13: Softmax
+
+A 3-class output layer produces logits:
+
+$$
+z=$$2,1,0$$
+$$
+
+Find the softmax probabilities.
+
+### Solution
+
+Softmax:
+
+$$
+\text{softmax}(z_i)=\frac{e^{z_i}}{\sum_j e^{z_j}}
+$$
+
+Compute exponentials:
+
+$$
+e^2\approx 7.389,\quad e^1\approx 2.718,\quad e^0=1
+$$
+
+Sum:
+
+$$
+7.389+2.718+1=11.107
+$$
+
+Now divide:
+
+$$
+P_1=\frac{7.389}{11.107}\approx 0.665
+$$
+
+$$
+P_2=\frac{2.718}{11.107}\approx 0.245
+$$
+
+$$
+P_3=\frac{1}{11.107}\approx 0.090
+$$
+
+**Answer: ($$0.665,;0.245,;0.090$$)**
+
+---
+
+## Problem 14: Forward Pass Through One Layer
+
+Suppose:
+
+$$
+W=\begin{bmatrix}1 & 2 \ -1 & 3\end{bmatrix},\quad
+x=\begin{bmatrix}2 \ 1\end{bmatrix},\quad
+b=\begin{bmatrix}1 \ 0\end{bmatrix}
+$$
+
+Compute:
+
+$$
+z=Wx+b
+$$
+
+### Solution
+
+First multiply:
+
+$$
+Wx=
+\begin{bmatrix}
+1 & 2 \
+-1 & 3
+\end{bmatrix}
+\begin{bmatrix}
+2 \ 1
+\end{bmatrix}
+=============
+
+\begin{bmatrix}
+1(2)+2(1) \
+-1(2)+3(1)
+\end{bmatrix}
+=============
+
+\begin{bmatrix}
+4 \ 1
+\end{bmatrix}
+$$
+
+Add bias:
+
+$$
+z=
+\begin{bmatrix}
+4 \ 1
+\end{bmatrix}
++
+\begin{bmatrix}
+1 \ 0
+\end{bmatrix}
+=============
+
+\begin{bmatrix}
+5 \ 1
+\end{bmatrix}
+$$
+
+**Answer: (\begin{bmatrix}5\1\end{bmatrix})**
+
+---
+
+## Problem 15: Mean Squared Error
+
+A model predicts:
+$$
+\hat y=$$2,4,6$$
+$$
+
+True values are:
+$$
+y=$$1,5,7$$
+$$
+
+Find MSE.
+
+### Solution
+
+$$
+MSE=\frac{1}{N}\sum_{i=1}^N (y_i-\hat y_i)^2
+$$
+
+Compute squared errors:
+
+* ((1-2)^2=1)
+* ((5-4)^2=1)
+* ((7-6)^2=1)
+
+Sum:
+
+$$
+1+1+1=3
+$$
+
+Divide by (N=3):
+
+$$
+MSE=\frac{3}{3}=1
+$$
+
+**Answer: 1**
+
+---
+
+## Problem 16: Binary Cross-Entropy
+
+For one binary example:
+
+* true label (y=1)
+* predicted probability (\hat y=0.9)
+
+Find the binary cross-entropy loss.
+
+### Solution
+
+$$
+L=-\left$$y\log(\hat y)+(1-y)\log(1-\hat y)\right$$
+$$
+
+Substitute (y=1):
+
+$$
+L=-\log(0.9)
+$$
+
+Using natural log:
+
+$$
+\log(0.9)\approx -0.105
+$$
+
+So
+
+$$
+L=0.105
+$$
+
+**Answer: about 0.105**
+
+---
+
+## Problem 17: Multiclass Cross-Entropy
+
+A 3-class classifier outputs probabilities:
+
+$$
+\hat y=$$0.7, 0.2, 0.1$$
+$$
+
+The true class is class 1, so:
+
+$$
+y=$$1,0,0$$
+$$
+
+Find the multiclass cross-entropy loss.
+
+### Solution
+
+$$
+L=-\sum_i y_i\log(\hat y_i)
+$$
+
+Since only the first true label is 1:
+
+$$
+L=-\log(0.7)
+$$
+
+$$
+L\approx 0.357
+$$
+
+**Answer: about 0.357**
+
+---
+
+## Problem 18: Gradient Descent Weight Update
+
+A weight currently has value:
+
+$$
+w=2.0
+$$
+
+Learning rate:
+
+$$
+\eta=0.1
+$$
+
+Gradient:
+
+$$
+\frac{\partial L}{\partial w}=0.5
+$$
+
+Find the updated weight.
+
+### Solution
+
+Gradient descent rule:
+
+$$
+w \leftarrow w-\eta\frac{\partial L}{\partial w}
+$$
+
+Substitute:
+
+$$
+w_{\text{new}}=2.0-0.1(0.5)=2.0-0.05=1.95
+$$
+
+**Answer: 1.95**
+
+---
+
+## Problem 19: Bias Update
+
+A bias term is:
+$$
+b=1.2
+$$
+
+Learning rate:
+$$
+\eta=0.05
+$$
+
+Gradient:
+$$
+\frac{\partial L}{\partial b}=-0.4
+$$
+
+Find the updated bias.
+
+### Solution
+
+$$
+b \leftarrow b-\eta\frac{\partial L}{\partial b}
+$$
+
+$$
+b_{\text{new}}=1.2-0.05(-0.4)=1.2+0.02=1.22
+$$
+
+**Answer: 1.22**
+
+---
+
+## Problem 20: Basic Chain Rule in Backprop
+
+Suppose:
+
+$$
+L=a^2,\quad a=3z,\quad z=w x
+$$
+
+Given:
+
+* (w=2)
+* (x=4)
+
+Find:
+
+$$
+\frac{dL}{dw}
+$$
+
+### Solution
+
+First compute chain rule:
+
+$$
+\frac{dL}{dw}=\frac{dL}{da}\cdot\frac{da}{dz}\cdot\frac{dz}{dw}
+$$
+
+Now compute each term.
+
+Since (L=a^2),
+
+$$
+\frac{dL}{da}=2a
+$$
+
+Since (a=3z),
+
+$$
+\frac{da}{dz}=3
+$$
+
+Since (z=wx),
+
+$$
+\frac{dz}{dw}=x=4
+$$
+
+Now compute intermediate values:
+
+$$
+z=wx=2\cdot4=8
+$$
+
+$$
+a=3z=24
+$$
+
+Then:
+
+$$
+\frac{dL}{da}=2(24)=48
+$$
+
+So:
+
+$$
+\frac{dL}{dw}=48\cdot 3 \cdot 4=576
+$$
+
+**Answer: 576**
+
+---
+
+## Problem 21: Convolution Output
+
+Given a (2\times2) input patch and a (2\times2) kernel:
+
+$$
+X=
+\begin{bmatrix}
+1 & 2 \
+3 & 4
+\end{bmatrix},
+\quad
+K=
+\begin{bmatrix}
+1 & 0 \
+-1 & 2
+\end{bmatrix}
+$$
+
+Compute the convolution result for this one location.
+
+### Solution
+
+Elementwise multiply and sum:
+
+$$
+(1)(1)+(2)(0)+(3)(-1)+(4)(2)
+$$
+
+$$
+=1+0-3+8=6
+$$
+
+**Answer: 6**
+
+---
+
+## Problem 22: Max Pooling
+
+Apply (2\times2) max pooling to:
+
+$$
+\begin{bmatrix}
+1 & 5 \
+3 & 2
+\end{bmatrix}
+$$
+
+### Solution
+
+Max pooling takes the largest value in the region.
+
+Largest entry is:
+
+$$
+\max(1,5,3,2)=5
+$$
+
+**Answer: 5**
+
+---
+
+## Problem 23: Average Pooling
+
+Apply (2\times2) average pooling to:
+
+$$
+\begin{bmatrix}
+1 & 5 \
+3 & 2
+\end{bmatrix}
+$$
+
+### Solution
+
+Average pooling computes mean:
+
+$$
+\frac{1+5+3+2}{4}=\frac{11}{4}=2.75
+$$
+
+**Answer: 2.75**
+
+---
+
+## Problem 24: RNN Hidden State
+
+An RNN uses:
+
+$$
+h_t = W_{xh}x_t + W_{hh}h_{t-1}+b_h
+$$
+
+Assume scalar values:
+
+* (W_{xh}=2)
+* (x_t=1)
+* (W_{hh}=0.5)
+* (h_{t-1}=4)
+* (b_h=1)
+
+Find (h_t), ignoring the activation function for simplicity.
+
+### Solution
+
+$$
+h_t=2(1)+0.5(4)+1
+$$
+
+$$
+h_t=2+2+1=5
+$$
+
+**Answer: 5**
+
+---
+
+## Problem 25: Query-Key Dot Product in Attention
+
+Suppose:
+
+$$
+Q=$$1,2$$, \quad K=$$3,4$$
+$$
+
+Compute the raw attention score (QK^T).
+
+### Solution
+
+Dot product:
+
+$$
+QK^T=(1)(3)+(2)(4)=3+8=11
+$$
+
+**Answer: 11**
+
+---
+
+## Problem 26: Scaled Attention Score
+
+Using the previous attention score:
+
+* (QK^T=11)
+* (d_k=4)
+
+Compute the scaled score:
+
+$$
+\frac{QK^T}{\sqrt{d_k}}
+$$
+
+### Solution
+
+$$
+\sqrt{d_k}=\sqrt{4}=2
+$$
+
+So:
+
+$$
+\frac{11}{2}=5.5
+$$
+
+**Answer: 5.5**
+
+---
+
+## Problem 27: Simple Self-Attention Output
+
+Suppose a token attends to two value vectors with attention weights:
+
+* 0.8 on (V_1=10)
+* 0.2 on (V_2=4)
+
+Find the attention output.
+
+### Solution
+
+Attention output is weighted sum:
+
+$$
+0.8(10)+0.2(4)=8+0.8=8.8
+$$
+
+**Answer: 8.8**
+
+---
+
+## Problem 28: Classification from Softmax Output
+
+A neural net outputs probabilities:
+
+$$
+$$0.15,;0.70,;0.15$$
+$$
+
+What class is predicted?
+
+### Solution
+
+Predicted class is the one with highest probability.
+
+Largest probability is (0.70), which is class 2 if counting from 1.
+
+**Answer: Class 2**
+
+---
+
+## Problem 29: Number of Parameter Updates
+
+A training set has 1000 samples. Minibatch size is 100.
+
+How many updates occur in one epoch?
+
+### Solution
+
+$$
+\text{Updates per epoch}=\frac{1000}{100}=10
+$$
+
+**Answer: 10 updates**
+
+---
+
+## Problem 30: One Epoch vs Multiple Epochs
+
+A model trains for 5 epochs on a dataset containing 200 samples. How many total sample passes occur?
+
+### Solution
+
+Each epoch sees all 200 samples once.
+
+$$
+5 \times 200 = 1000
+$$
+
+**Answer: 1000 sample passes**
+
+---
+
+# Super Fast Review Section
+
+## Most likely equations to practice from memory
+
+$$
+\text{Accuracy}=\frac{TP+TN}{TP+TN+FP+FN}
+$$
+
+$$
+\text{Precision}=\frac{TP}{TP+FP}
+$$
+
+$$
+\text{Recall}=\frac{TP}{TP+FN}
+$$
+
+$$
+F1=2\cdot\frac{PR}{P+R}
+$$
+
+$$
+z=w^Tx+b
+$$
+
+$$
+a=\phi(z)
+$$
+
+$$
+MSE=\frac{1}{N}\sum(y-\hat y)^2
+$$
+
+$$
+L=-$$y\log(\hat y)+(1-y)\log(1-\hat y)$$
+$$
+
+$$
+w\leftarrow w-\eta\frac{\partial L}{\partial w}
+$$
+
+$$
+h_t=W_{xh}x_t+W_{hh}h_{t-1}+b_h
+$$
+
+$$
+\text{Attention}(Q,K,V)=\text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+$$
+
+

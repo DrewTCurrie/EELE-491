@@ -1,0 +1,82 @@
+## Drew Currie EELE-491
+
+## Question 1:
+### Part A Table
+
+![Table](ModelTokenCharacterRelationship.png)
+
+### Part A Short Answer
+
+- Compare the "characters per token" across the three sentences.
+
+Between the three sentences, the characters per token decrease as the complexity increases. The engineering and mathematical sentences required more tokens to properly capture the context of the sentence. Simple English sentences require fewer tokens as the meaning is more straightforward.
+
+- Which type of text is "cheapest" in terms of tokens? Which is "expensive"?
+
+The simple English sentences are the cheapest, requiring the least amount of tokens to capture the meaning of the sentence. The math sentence involving units and details is the most expensive. The more complex a sentence's meaning is, the more compute is required to handle it.
+
+- Why might engineering text be tokenized differently from everyday English?
+
+This is likely due to the requirement of finding small details in the sentence. The model must catch things like subscripts and/or code samples. This requires more tokens to fully understand the natural language relationships between characters/words.
+
+### Part B Short Answer
+
+- Which words are broken into multiple subword pieces?
+
+["MSP", "430", "-F", "R", "233", "55"] which breaks the number identifier of the specific microcontroller into two tokens.
+
+- Which technical terms stay a single token?
+
+PID was kept as one token which will help with identifying the specific control system that is asked about.
+
+MATLAB was not broken into two tokens which helps identify the specific programming language being used for the task.
+
+I think these are two different examples of why tokens would not be split. The first, PID, is not split because it is short enough to carry the meaning more directly and not need further analysis. MATLAB, however, should not be split as this fits the role of a proper noun and splitting this token could cause the model to misinterpret the user's intentions.
+
+- How might frequent use of certain technical terms in training data affect whether they become single tokens or multiple?
+
+Having technical terms not split in training data and seeing these tokens would increase the model's understanding of these token relationships. If the goal is to build a model that understands technical concepts, providing technical concepts as a single token can help focus more on the attention heads that find this token and the common relationships to this token.
+
+- What might be some consequences if a key engineering term is always split into many pieces?
+
+Splitting key engineering terms that are commonly used into multiple tokens would increase the computational cost of running these prompts. This would also dilute the training of these specific tokens and their relationships to other tokens. This could decrease the performance of the model on these tokens.
+
+### Part C
+
+1. Estimate the tokens in an engineering paragraph
+
+   - Number of words in paragraph: 1,225
+   - Number of tokens in paragraph: 472
+   - Tokens per word: 0.3853
+
+2. Full report: - I did this wrong. I passed in the full report. Numbers are accurate to the report.
+
+   - Number of words in report: 40,851
+   - Number of tokens in report: 10,021
+   - Tokens per word: 0.245
+
+3. Can the entire report fit in the context window?
+
+No, the entire report does not fit within the context window of an 8,000 token context window. Only about 80% of the report would fit in the context window of an 8,000 token model.
+
+4. Approximate the cost to send one entire report to the model once.
+   This report would cost about $30.063. To do this ten times would be $300.63.
+
+5. Short reflection
+
+The tokenization limits the amount of data that can be passed into a model to work on. Passing in more tokens than the context window allows will require the model to sample tokens and not process all of them. This can lead to the model missing data; the needle in a haystack test is used to benchmark these results. If this is used in engineering documentation, a specific number of units could be missed, resulting in documentation that is wrong or not useful.
+
+Reducing model token usage while maintaining useful outputs could be achieved by decreasing the amount of documentation being provided to the model. Instead of providing the entire report or documentation, specific sections could be provided instead. Then piece these sections together into one cohesive document.
+
+## Question 2:
+In the paper "Attention Is All You Need," the authors present a transformer network with the following parameters:
+    - Vocabulary size = 37,000 unique tokens
+    - dmodel = 512
+    - N = 6 (number of stacked encoder and decoder layers)
+    - h = 8 (number of heads)
+    - dk = dv = dmodel /h = 64
+    - dFF = 2048
+
+$$ trainableParameters = (VocabularySize * d_{model})+N((4d_{model}^{2}+2d_{model}d_{FF})+(8d_{model}^{2}+2d_{model}+2d_{model}d_{FF}))$$
+$$trainableParametrs = (37,000*512)+6((4*512^2+2*512*2048)+(8*512^2+2*512*2048))$$
+$$trainableParamters = 62,984,192$$
