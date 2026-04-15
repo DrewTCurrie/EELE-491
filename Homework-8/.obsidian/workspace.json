@@ -1,0 +1,198 @@
+{
+  "main": {
+    "id": "656c88055bee2c51",
+    "type": "split",
+    "children": [
+      {
+        "id": "0ca114c1f207ab6b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "97dacdf8fd9c1a04",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "HierarchicalMixtureofExperts_GeneralizableLearningforHigh-LevelSynthesis.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "HierarchicalMixtureofExperts_GeneralizableLearningforHigh-LevelSynthesis"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "c8dcf753e9c447da",
+    "type": "split",
+    "children": [
+      {
+        "id": "86a78403c45f065c",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ea9053effef89cb4",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "a340bf9700ed9e45",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "fa00e4df4c490fb0",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "2e5231038897444a",
+    "type": "split",
+    "children": [
+      {
+        "id": "f44689d2fc34a82b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "11e438036e036d5d",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "HierarchicalMixtureofExperts_GeneralizableLearningforHigh-LevelSynthesis.pdf",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for HierarchicalMixtureofExperts_GeneralizableLearningforHigh-LevelSynthesis"
+            }
+          },
+          {
+            "id": "8a1741fba16643f4",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "HierarchicalMixtureofExperts_GeneralizableLearningforHigh-LevelSynthesis.pdf",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from HierarchicalMixtureofExperts_GeneralizableLearningforHigh-LevelSynthesis"
+            }
+          },
+          {
+            "id": "8576a27c24bc555a",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "95f15ca38b01732d",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "3f5c194b91acb0f6",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "HierarchicalMixtureofExperts_GeneralizableLearningforHigh-LevelSynthesis.pdf",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of HierarchicalMixtureofExperts_GeneralizableLearningforHigh-LevelSynthesis"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "97dacdf8fd9c1a04",
+  "lastOpenFiles": [
+    "A Survey on Mixture of Experts in Large Language Models.md",
+    "lu21533vg5q.tmp",
+    "GShard_ScalingGiantModelswithConditionalComputationandAutomaticSharding.pdf",
+    "2407.pdf",
+    "ASurveyonMixtureofExpertsinLargeLanguageModels.pdf",
+    "Hierarchical Mixture of Experts Generalizable Learning for High-Level Synthesis.md",
+    "2407.06204",
+    "HierarchicalMixtureofExperts_GeneralizableLearningforHigh-LevelSynthesis.pdf",
+    "hw08.pdf",
+    "GShared Scaling Giant Models with Conditional Computation and Automatic Sharding.md",
+    "Outrageously Large Neural Networks The Sparsely-Gated Mixture-of-Experts Layer Notes.md"
+  ]
+}
